@@ -6,4 +6,8 @@ ARGV.each do |a|
 end
 
 cart.read_from_file
-cart.save_to_file
+begin
+  cart.save_to_file
+rescue Cart::ItemNotSupported
+  puts "one of the items you're trying to save is not supported by the Cart. Unsupported item classes are: #{Cart::UNSUPPORTED_ITEMS}"
+end
