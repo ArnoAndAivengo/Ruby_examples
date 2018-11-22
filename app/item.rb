@@ -39,7 +39,7 @@ class Item
                    2
                  end
       cost_tax = if @real_price > 5
-                   @real_price * 0.2
+                   @real_price * 0.3
                  else
                    @real_price * 0.1
                  end

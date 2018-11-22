@@ -1,8 +1,21 @@
-require_relative "store_application"
+require_relative "app/store_application"
 
 StoreApplication.config do |app|
-  app.name = "My Store"
+  app.name        = "My Store"
+  app.environment = :production
+
+  app.admin do |admin|
+    admin.email = "admin@admin.com"
+    admin.login = "admin"
+    admin.send_info_emails_on :mondays
+  end
 end
+
+unless StoreApplication.frozen?
+  StoreApplication.name = "Hello World"
+end
+# StoreApplication::Admin.email = "New_admin@mail.com"
+p StoreApplication::Admin.email
 
 @items = []
 @items << AntiqueItem.new("car", price: 101, weight: 100)
@@ -15,3 +28,8 @@ cart = Cart.new("Alex")
 cart.add_item RealItem.new({:price => 101, :weight => 100, :name => "car"})
 cart.add_item RealItem.new({:price => 120, :weight => 100, :name => "car"})
 cart.add_item RealItem.new({:price => 101, :weight => 100, :name => "kettle"})
+
+order = Order.new
+order.place
+puts order.placed_at.strftime("%b %-d, %Y %H:%M:%S ") # Jan 1, 1970 15:00:00
+puts order.time_spent_on_sending_email
